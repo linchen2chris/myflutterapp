@@ -60,6 +60,11 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
+  void _decreaseCounter() {
+    setState(() {
+        _counter--;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            TextButton(onPressed: _decreaseCounter, child: const Text("decrease")),
           ],
         ),
       ),
