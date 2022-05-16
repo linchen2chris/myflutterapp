@@ -5,6 +5,7 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -27,4 +28,28 @@ void main() {
     expect(find.text('0'), findsNothing);
     expect(find.text('1'), findsOneWidget);
   });
+
+  testWidgets('mouse test', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+    // // Verify that our counter starts at 0.
+    expect(find.text('0'), findsOneWidget);
+    expect(find.text('-1'), findsNothing);
+
+    final guesture = await tester.createGesture(kind: PointerDeviceKind.mouse);
+    addTearDown(guesture.removePointer);
+    await guesture.down(tester.getCenter(find.text('decrease')));
+    await tester.pumpAndSettle();
+
+    await guesture.up();
+
+    // await tester.tap(find.text('decrease'));
+    await tester.pump();
+    // Verify that our counter has incremented.
+    expect(find.text('0'), findsNothing);
+    expect(find.text('-1'), findsOneWidget);
+  });
+
+  testWidgets('test multiple finder', (WidgetTester tester) async {
+  await tester.pumpWidget(const MyApp());
+});
 }
