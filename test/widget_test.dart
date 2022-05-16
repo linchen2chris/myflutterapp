@@ -37,7 +37,7 @@ void main() {
 
     final guesture = await tester.createGesture(kind: PointerDeviceKind.mouse);
     addTearDown(guesture.removePointer);
-    await guesture.down(tester.getCenter(find.text('decrease')));
+    await guesture.down(tester.getCenter(find.text('decrease').first));
     await tester.pumpAndSettle();
 
     await guesture.up();
@@ -49,7 +49,4 @@ void main() {
     expect(find.text('-1'), findsOneWidget);
   });
 
-  testWidgets('test multiple finder', (WidgetTester tester) async {
-  await tester.pumpWidget(const MyApp());
-});
 }
