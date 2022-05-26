@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+
+import 'image_color_pick_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,7 +13,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      
       title: 'Flutter counter demo',
       theme: ThemeData(
         primarySwatch: Colors.purple,
@@ -22,8 +24,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-
 
   final String title;
 
@@ -39,40 +39,49 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
+
   void _decreaseCounter() {
     setState(() {
-        _counter--;
+      _counter--;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            TextButton(onPressed: _decreaseCounter, child: const Text("decrease")),
-            TextButton(
-                  onPressed: _decreaseCounter, child: const Text("decrease")),
-          ],
+        appBar: AppBar(
+          title: Text(widget.title),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      )
-    );
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'You have pushed the button this many times:',
+              ),
+              Text(
+                '$_counter',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+              TextButton(
+                  onPressed: _decreaseCounter, child: const Text("decrease")),
+              TextButton(
+                  onPressed: _decreaseCounter, child: const Text("decrease")),
+              SizedBox(width: 600.0, height: 500.0, child: ColorPickerWidget()),
+              // Image.asset(
+              //   "images/black.jpg",
+              //   height: 40.0,
+              //   width: 20.0,
+              //   color: Colors.white,
+              // ),
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: _incrementCounter,
+          tooltip: 'Increment',
+          key: const ValueKey("increase"),
+          child: const Icon(Icons.add),
+        ));
   }
 }

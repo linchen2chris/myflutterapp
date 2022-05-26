@@ -49,4 +49,26 @@ void main() {
     expect(find.text('-1'), findsOneWidget);
   });
 
+  testWidgets("check button width", (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+    final btn = find.text("decrease").first;
+
+    expect(btn, findsOneWidget);
+    expect(tester.getSize(btn).height, 14.0);
+    expect(tester.getSize(btn).width, 112.0);
+  });
+
+  testWidgets("check button color", (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+    final btn = find.byType(Image);
+
+    expect(btn, findsOneWidget);
+    print(btn.toString());
+    final image = tester.widget<Image>(btn);
+    print(image.toString());
+    final textFinder = tester.widget<Text>(find.byType(Text).first);
+    expect(textFinder.style?.color, Colors.red);
+    // print("message ${icon.color.toString()}");
+    // expect(color, const Color(0xFFFFFFFF));
+  });
 }
