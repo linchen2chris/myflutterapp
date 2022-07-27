@@ -10,6 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:myflutterapp/main.dart';
+import 'package:image/image.dart' as img;
+import 'package:flutter/rendering.dart';
+import 'dart:ui' as ui;
+import 'dart:async';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
@@ -68,6 +72,43 @@ void main() {
     print(image.toString());
     final textFinder = tester.widget<Text>(find.byType(Text).first);
     expect(textFinder.style?.color, Colors.red);
+    // print("message ${icon.color.toString()}");
+    // expect(color, const Color(0xFFFFFFFF));
+  });
+
+  testWidgets("check image color", (WidgetTester tester) async {
+    Future<ui.Image> loadImageByProvider(
+      ImageProvider provider, {
+      ImageConfiguration config = ImageConfiguration.empty,
+    }) async {
+      Completer<ui.Image> completer = Completer<ui.Image>(); //完成的回调
+      ImageStreamListener? listener = null;
+      ImageStream stream = provider.resolve(config); //获取图片流
+      listener = ImageStreamListener((ImageInfo frame, bool sync) {
+//监听
+        final ui.Image image = frame.image;
+        completer.complete(image); //完成
+        stream.removeListener(listener!); //移除监听
+      });
+      stream.addListener(listener); //添加监听
+      return completer.future; //返回
+    }
+
+    await tester.pumpWidget(const MyApp());
+    print("start");
+    final btn = find.byType(Image);
+    print("btn $btn");
+
+    expect(btn, findsOneWidget);
+    final image = tester.widget<Image>(btn).image;
+    print("image: $image");
+    final uiImage = await loadImageByProvider(image);
+    print("dfsdf, $uiImage");
+    final imageBytes = await uiImage.toByteData();
+    print("jjj, $imageBytes");
+
+    // final textFinder = tester.widget<Text>(find.byType(Text).first);
+    // expect(textFinder.style?.color, Colors.red);
     // print("message ${icon.color.toString()}");
     // expect(color, const Color(0xFFFFFFFF));
   });
